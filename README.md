@@ -1,68 +1,49 @@
-# Predicting Housing Prices in King County, WA, Using Multiple Linear Regression
+# Does the Big Business of College Sports Impact Student Outcomes?
+## Predicting post-graduate earnings using University spending behaviors
+
 
 **Author**: [Matt Schwartz](mailto:mtschwart@gmail.com)
 
-## Overview 
+## Overview and Business Problem
 
 The following report provides data and analysis on housing prices in King County, Washington State, and details a number of multiple regression models used to predict these prices. 
 
 ## Business Problem
 
-Buying a home can be a frustrating process. Everyone has some idea of their dream home, but when it comes down to actually buying one, chances are there are blockers to getting the exact one you want. Maybe the square footage isn't right, or you wish it had another bedroom, or you simply don't have enough cash on hand to cover the down payment. Whatever it is, the process is long and arduous and requires lots of research.
+College sports is big business. This biggest schools, like Alabama, Texas, Clemson, and Ohio State generate tens of millions, even hundreds of millions of dollars in revenue across their football and basketball teams. This money has been growing significantly over the past 15 years. From 2006 to 2016, NCAA D1 Football Subdivision (FBS) schools saw overall revenues from increase [to 8.5 billion dollars from 4.4 billion dollars](https://www.ipr.northwestern.edu/documents/working-papers/2020/wp-20-42.pdf). Although these FBS schools (130 schools across 10 major conferences) field 20 or more sports, [58% of total athletic department revenue is derived from men’s football and basketball.](https://www.ipr.northwestern.edu/documents/working-papers/2020/wp-20-42.pdf) What makes these sports even more profitable are the multi-billion-dollar media deals that the major conferences make with networks like ESPN, CBS, and NBC. Conferences like the Big Ten and the SEC even have their own media networks. 
 
-As a prospective home buyer, one of the last things you'd want to do is overpay for that home. It's hard to know when you're getting fleeced, especially when you're really desparate to buy. This project is meant to help buyers not overpay for their home. By building a reliable prediction engine, we can help new home buyers know if they're getting a good price. We'd also be able to tell them what factors influence prices, and by how much. In theory, waterfront property will be cost more, but by how much? Does a house that's been renovated have much higher prices than those that haven't? How about how old the house is, or the zipcode in which it was built?
+The topic of paying athletes has been the subject of hundreds of articles and numerous economics papers. Instead, I want to explore the connection, if any exists, between what a school spends on its sports programs and the outcomes of its students. Do schools that spend a lot on sports spend less on academics? Do students perform better or worse at major sporting institutions than those that are known more for academic rigor?
 
-The following will attempt to build a prediction engine that prospective home buyers can use when searching for ideal home. In the future, this model can be used as the backbone for an app or website, in which you can input the information of a house that is on sale, predict what the market price should be, and compare it to listings across the internet on sites like Zillow.
+Additionally, we'll explore inequality between male and female students. We know about the gender pay gap, but we're not as familiar with how unsupported women's sports and programs are in general at many universities, big and small. Girls and women’s sports have long been underfunded and under-supported for decades, and only started to improve with the introduction of Title IX in 1972. [The title prohibits sex-based discrimination at all schools and programs that receive federal funding.](https://en.wikipedia.org/wiki/Title_IX) It requires schools (colleges in this case) to offer proportional athletic opportunities to men and women. However, compliance falls short despite these regulations. [According to the Women’s Sports Foundation](https://www.womenssportsfoundation.org/wp-content/uploads/2020/01/Chasing-Equity-Full-Report-Web.pdf), 87% of the 1,084 NCAA-participant institutions offered disproportionately higher rates of athletic opportunities to male athletes compared with their enrollment. Division 1 schools fared even worse, with only 8.6% of these institutions offering athletic opportunities to female athletes proportional to their enrollment. 
 
 ## Data
 
-The data in this project comes from King County of Washington State. The county includes both Seattle and Bellevue, so we're looking at a large number of houses - over 21K. The dependent variable in this analysis will be home prices.
+We have data from 3 sources:
 
-To help predict the price, we will be using the following explanatory variables:
+- [College Athletics Financial Information (CAFI) Database](http://cafidatabase.knightcommission.org/nfs)
+This dataset, created by the Knight Commission on Intercollegiate Athletics, captures the expenses and revenues of ahtletic departments across the country. Not all data is accounted for because Private schools are not required to share this information, but the data is complete for all public schools. This dataset has features like total football spending and coaching salaries, student fees collected, ticket sales, and medical expenses. The data consists of all Division 1 schools in the Football Bowl Subdivision (FBS).
 
-- Rooms
-- Square footage in each house, and the square footage of the houses' 15 closest neighbors
-- Year built
-- Year renovated (if applicable)
-- Condition (overall condition of the house)
-- Grade (overall grade given to each house by the King County Grading System)
-- Zipcode
-- Latitude and longitude
-- Using these variables, and others I create, I will attempt to create a quality model (defined by satisfying the assumptions of linear regression, a high R2, and a low root mean squared error) that can accurately predict the price of a house and also provide clarity into how different variables affect the price.
+- [Equity in Athletics](https://ope.ed.gov/athletics/#/)
+This dataset, created by the Office of Postsecondary Education of the U.S. Department of Education. From the website: "The data are drawn from the OPE Equity in Athletics Disclosure Website database. This database consists of athletics data that are submitted annually as required by the Equity in Athletics Disclosure Act (EADA), by all co-educational postsecondary institutions that receive Title IV funding (i.e., those that participate in federal student aid programs) and that have an intercollegiate athletics program. This data allows us to look at how schools are supporting men's and women's sports at very granular detail. We can see how much a school spends on each coach for each t, weamhat the operating expenses are per male and female athlete for each sport, and how many students participate in sports. This will help answer any inequality questions we may have.
+
+- [College Scorecard](https://collegescorecard.ed.gov/)
+This dataset is also a product of the Department of Education. It contains many thousands of columns, capturing things like demographics, loan repayment rates, average and median earnings of post-grads, and even average family incomes at each school. Our target - 6 year average earnings, is from this dataset. That feature, captured in 2014-15, contains the average earnings of that school's post-graduates, 6 years after they enrolled at that school. So these are students that started back in 2008-09 and 2009-10.
 
 ## Methods
 
-To build a prediction engine, we utilized multiple linear regression. By regressing the variables listed above on price, we were able to account for a significant portion of the variation in price. To eliminate the influence of major outliers, we limited the sample to houses that sold for between $100,000 and $1,000,000, and that were smaller than 4500 square feet in total space.
-
-In addition, we create a number of variables based on our existing data. These include each houses' distance from downtown Seatlle in miles, age, and a dummy variable for whether a house was renovated or not.
+To build a prediction engine, we utilized multiple linear regression.
 
 ## Results
 
-Our final model, which included zipcodes, improved the R2 value by 16 percentage points over our baseline model. It also reduced root mean squared error by $26K. 
 
-Baseline Model:
-
-![baseline model](/images/benchmark_model_results.png)
-
-Final Model:
-
-![final model](/images/final_model_results.png)
-
-In addition, we calculated the impact that each independent variable had on price. These findings include:
-
-  - A one unit increase square footage increases price by 19% on average, holding all else equal.
-  - An extra year of age decreases price by an average of about 1.4%.
-  - One extra mile further from downtown decreases price by an average of about 13%.
-  - A house on the waterfront is 72% more expensive than a house that isn't, on average.
 
 
 ## Conclusions
 
-Our final model has good predicitive power - as mentioned above, it accounts for over 80% of the variation in price - but does have some issues. It's very heteroscedastic, meaning the residuals are not randomly distributed, and the root mean squared error, although much smaller than we started, is still $85K, meaning that each prediction has an average error of $85K. There is future work to be done. 
+
 
 ## Further Analysis
 
-In the future, the main goal would be to gather more data to eliminate hidden variable bias. There are likely many more factors that influence housing price which we are not capturing in our models. Doing so would reduce our errors, improve prediction power, and create a prediction engine powerful enough to support a new application or website.
 
 ## For More Information
 
@@ -80,9 +61,8 @@ For any questions, please contact Matt Schwartz at [mtschwart@gmail.com](mailto:
 ├── .canvas
 ├── .gitignore
 ├── CONTRIBUTING.md
-├── King_County_Home_Price_Predictions_Presentation.pdf
-├── Link_to_Presentation_Recording.docx
-├── Predicting_Housing_Prices_In_King_County.ipynb
-├── Predicting_Housing_Prices_In_King_County_Jupyter_Notebook.pdf
+├── .pdf
+├── .ipynb
+├── .pdf
 ├── README.md
 ```
